@@ -28,12 +28,14 @@ public class BusanServiceImpl implements BusanService {
 	
 	@Override
 	public void save(CommentDTO comment) {
+		if(comment.getWriter().equals("") || comment.getConstent().equals("")) {
+			System.out.println("예외 발생!");
+		}
 		mapper.save(comment);	
 	}
 
 	@Override
 	public List<CommentDTO> getComments(Long foodNo) {
-		
 		return mapper.getComment(foodNo);
 	}
 
