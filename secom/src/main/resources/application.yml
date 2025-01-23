@@ -3,16 +3,18 @@ spring:
     name: secom
   datasource:
     url: jdbc:oracle:thin:@localhost:1521:xe
-    username: SPRING
-    password: SPRING
+    username: SECOM
+    password: SECOM
     driver-class-name: oracle.jdbc.driver.OracleDriver  
 
 server:
   port: 80
 
 mybatis:
+  mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    jdbc-type-for-null: NULL 
 
 logging:
   level:
@@ -21,3 +23,6 @@ logging:
     jdbc.sqlonly: DEBUG
     jdbc.resultset: DEBUG
     jdbc.audit: DEBUG
+
+jwt:
+  secret: EpOVyBfulvbENO6F3LNFM4xYQyXLBoKG1VOkzYV6Kpc=
