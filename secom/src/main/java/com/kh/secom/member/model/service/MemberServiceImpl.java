@@ -16,38 +16,33 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberServiceImpl implements MemberService {
-	
+
 	private final MemberMapper memberMapper;
 	private final PasswordEncoder passwordEncoder;
 
 	@Override
 	public void save(MemberDTO requestMember) { // 일반사용자용 가입 메소드
-		
-		if("".equals(requestMember.getUserId()) ||
-		   "".equals(requestMember.getUserPwd())) {
+
+		if ("".equals(requestMember.getUserId()) || "".equals(requestMember.getUserPwd())) {
 			throw new InvalidParameterException("유효하지 않은 값입니다.");
 		}
-		
+
 		// DB에 이미 사용자가 입력한 사용자가 존재해서는 안됨
 		Member searched = memberMapper.findByUserId(requestMember.getUserId());
-		
-		if(searched != null) {
+
+		if (searched != null) {
 			throw new DuplicateUserException("이미 존재하는 아이디입니다.");
 		}
-		
+
 		// 비밀번호 평문이라 그냥 들어가면 안됨
 		// + ROLE == USER라고 저장할 예정
-		
+
 		Member member = Member.builder().userId(requestMember.getUserId())
-										.userPwd(passwordEncoder.encode(requestMember.getUserPwd()))
-										.role("ROLE_USER")
-										.build();
-		
-		
-		
+				.userPwd(passwordEncoder.encode(requestMember.getUserPwd())).role("ROLE_USER").build();
+
 		memberMapper.save(member);
 		log.info("회원가입 성공!");
-		
+
 	}
 
 }
